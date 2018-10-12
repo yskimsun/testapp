@@ -5,10 +5,33 @@
       <title>Hello World!</title>
     </head>
     <body>
-      <h1>Hello World!</h1>
+    <div id="update-msg"></div>
+    <div id="app-version"></div>
+
+    <h1>Hello World!</h1>
       We are using node <script>document.write(process.versions.node)</script>,<br>
       Chrome <script>document.write(process.versions.chrome)</script>,
       and <br>
-      Electron <script>document.write(process.versions.electron)</script>.
+      Electron <script>document.write(process.versions.electron)</script>.<br>
+
+
+    <!--<script>-->
+        <!--function writeMessage(msg){-->
+          <!--let label = document.getElementById("messages");-->
+
+          <!--label.innerHTML = msg;-->
+        <!--}-->
+    <!--</script>-->
+
+    <script>
+        const {app} = require('electron').remote
+        document.getElementById("app-version").innerText  = 'App: '+app.getVersion();
+
+        require('electron').ipcRenderer.on('update-msg', (event, message) => {
+          let label = document.getElementById("update-msg");
+          label.innerText = message;
+        })
+    </script>
+
     </body>
   </html>

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn start
+  /usr/local/bin/node /usr/local/bin/yarn publish
 
 PATH: 
   /Users/yskimsun/Library/Android/sdk/ndk-bundle:/Users/yskimsun/Library/Android/sdk/platform-tools/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,46 +14,62 @@ Platform:
   darwin x64
 
 Trace: 
-  SyntaxError: /Volumes/DEVELOPER/electron/webpack/testapp/package.json: Unexpected token / in JSON at position 422
-      at JSON.parse (<anonymous>)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:1136:59
-      at Generator.next (<anonymous>)
-      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:109:13
-      at <anonymous>
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:116426:13)
+      at emitNone (events.js:106:13)
+      at Interface.emit (events.js:208:7)
+      at Interface._ttyWrite (readline.js:775:16)
+      at ReadStream.onkeypress (readline.js:160:10)
+      at emitTwo (events.js:126:13)
+      at ReadStream.emit (events.js:214:7)
+      at emitKeys (internal/readline.js:420:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1011:36)
 
 npm manifest: 
   {
     "name": "testapp",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "description": "electron testapp",
     "main": "main.js",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "NODE_ENV=dev electron .",
+      "dev": "NODE_ENV=dev electron .",
       "clean": "rm -rf ./dist",
+      "build": "build",
+      "publish": "build -p always",
       "dist": "electron-builder",
       "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
     },
     "author": "naonsoft",
     "license": "ISC",
-  
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/yskimsun/testapp.git"
+    },
     "build": {
-      /*sdfsdf*/
       "productName": "TestApp",
       "appId": "com.naonsoft.mac.testapp",
       "asar": true,
+      "icon": "./resources/icon.png",
       "mac": {
         "target": [
           "zip", "dmg"
-        ],
-        "icon": "./resources/icon.png"
-      }
+        ]
+      },
+      "publish": [{
+        "provider": "github",
+        "owner": "yskimsun",
+        "repo": "testapp"
+      }]
     },
-  
     "devDependencies": {
       "electron": "^3.0.1",
       "electron-builder": "^20.28.1"
+    },
+    "dependencies": {
+      "electron-log": "^1.3.0",
+      "electron-updater": "^3.1.2"
     }
   }
 
@@ -281,7 +297,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
     integrity sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
   
-  builder-util-runtime@4.4.1, builder-util-runtime@^4.4.1:
+  builder-util-runtime@4.4.1, builder-util-runtime@^4.4.1, builder-util-runtime@~4.4.1:
     version "4.4.1"
     resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-4.4.1.tgz#2770d03241e51fde46acacc7ed3ed8a9f45f02cb"
     integrity sha512-8L2pbL6D3VdI1f8OMknlZJpw0c7KK15BRz3cY77AOUElc4XlCv2UhVV01jJM7+6Lx7henaQh80ALULp64eFYAQ==
@@ -620,6 +636,16 @@ Lockfile:
       semver "^5.4.1"
       sumchecker "^2.0.2"
   
+  electron-is-dev@^0.3.0:
+    version "0.3.0"
+    resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
+    integrity sha1-FOb9pcaOnk7L7/nM8DfL18BcWv4=
+  
+  electron-log@^1.3.0:
+    version "1.3.0"
+    resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-1.3.0.tgz#d05544114b971a16c86739c79d0d236103ad0a16"
+    integrity sha1-0FVEEUuXGhbIZznHnQ0jYQOtChY=
+  
   electron-osx-sign@0.4.10:
     version "0.4.10"
     resolved "https://registry.yarnpkg.com/electron-osx-sign/-/electron-osx-sign-0.4.10.tgz#be4f3b89b2a75a1dc5f1e7249081ab2929ca3a26"
@@ -644,6 +670,21 @@ Lockfile:
       fs-extra-p "^4.6.1"
       lazy-val "^1.0.3"
       mime "^2.3.1"
+  
+  electron-updater@^3.1.2:
+    version "3.1.2"
+    resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-3.1.2.tgz#30d9790d5b16048e4afc74a31748790348b153bf"
+    integrity sha512-y3n37O01pdynMJHhJbOd2UVhVrmDW6zLvR2SOZ+gk3S6r16872+0nNbC48GXWwc26lTeus/Zja/XUpiqrvdw4A==
+    dependencies:
+      bluebird-lst "^1.0.5"
+      builder-util-runtime "~4.4.1"
+      electron-is-dev "^0.3.0"
+      fs-extra-p "^4.6.1"
+      js-yaml "^3.12.0"
+      lazy-val "^1.0.3"
+      lodash.isequal "^4.5.0"
+      semver "^5.5.1"
+      source-map-support "^0.5.9"
   
   electron@^3.0.1:
     version "3.0.3"
@@ -1135,6 +1176,11 @@ Lockfile:
     dependencies:
       p-locate "^3.0.0"
       path-exists "^3.0.0"
+  
+  lodash.isequal@^4.5.0:
+    version "4.5.0"
+    resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+    integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
   
   loud-rejection@^1.0.0:
     version "1.6.0"
